@@ -11,7 +11,7 @@ Este servicio administra la asistencia diaria de los estudiantes y sus anotacion
 - Maven
 - Spring Web
 - Spring Data JPA
-- H2 en modo archivo
+- MySQL 8 (perfil `mysql`) / H2 en memoria para tests
 - Bean Validation
 - Swagger / OpenAPI con springdoc 2.8.6
 - JUnit 5, Mockito y JaCoCo
@@ -23,13 +23,11 @@ El servicio corre en el puerto `8082`.
 - API base: `http://localhost:8082/api/v1`
 - Swagger UI: `http://localhost:8082/swagger-ui.html`
 - OpenAPI JSON: `http://localhost:8082/v3/api-docs`
-- H2 console: `http://localhost:8082/h2-console`
+## Base de datos MySQL
 
-Datos para H2:
-
-- JDBC URL: `jdbc:h2:file:./data/asistenciadb`
-- Usuario: `sa`
-- Password: vacío
+- Base de este servicio: `libroclases_asistencia`
+- Usuario: `libroclases` / `clave123`
+- **Levantar MySQL con Docker:** repositorio [bff-libroclases](https://github.com/crishuinca/fsk3-bff) — `docker-compose.yml` en la raiz y guia `docs/MYSQL.md`
 
 ## Cómo ejecutar
 
@@ -64,7 +62,7 @@ Estado actual:
 
 - 21 tests.
 - Cobertura global aproximada: 91% por líneas.
-- Regla JaCoCo: mínimo 60% para la capa `service`.
+- Regla JaCoCo: mínimo 80% para la capa `service`.
 
 ## CI/CD y SonarQube
 
