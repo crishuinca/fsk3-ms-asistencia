@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.bohiggins.ms_asistencia.dto.AsistenciaCreateRequest;
 import cl.bohiggins.ms_asistencia.entity.Asistencia;
 import cl.bohiggins.ms_asistencia.service.AsistenciaService;
+import cl.bohiggins.ms_asistencia.web.RecursoHttp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,8 +38,9 @@ public class AsistenciaController {
 	private AsistenciaService servicio;
 
 	@Operation(summary = "Registrar asistencia", description = "Una sola asistencia por estudiante por fecha")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Asistencia creada") })
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Asistencia creada") })
 	@PostMapping("/addAsistencia")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Asistencia c_guardarAsistencia(@Valid @RequestBody AsistenciaCreateRequest req) {
 		return servicio.guardarAsistencia(req);
 	}
@@ -50,7 +54,7 @@ public class AsistenciaController {
 	@Operation(summary = "Obtener asistencia por ID")
 	@GetMapping("/asistenciaByID/{id}")
 	public Asistencia c_obtenerAsistenciaID(@PathVariable Long id) {
-		return servicio.obtenerAsistenciaID(id);
+		return RecursoHttp.requerir(servicio.obtenerAsistenciaID(id), "Asistencia no encontrada.");
 	}
 
 	@Operation(summary = "Listar asistencias de un curso en una fecha")
@@ -70,7 +74,7 @@ public class AsistenciaController {
 	@Operation(summary = "Modificar asistencia")
 	@PutMapping("/modificarAsistencia")
 	public Asistencia c_modificarAsistencia(@RequestBody Asistencia a) {
-		return servicio.modificarAsistencia(a);
+		return RecursoHttp.requerir(servicio.modificarAsistencia(a), "Asistencia no encontrada.");
 	}
 
 	@Operation(summary = "Eliminar asistencia")
