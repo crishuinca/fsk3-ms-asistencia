@@ -23,6 +23,12 @@ El servicio corre en el puerto `8082`.
 - API base: `http://localhost:8082/api/v1`
 - Swagger UI: `http://localhost:8082/swagger-ui.html`
 - OpenAPI JSON: `http://localhost:8082/v3/api-docs`
+- Health: `http://localhost:8082/actuator/health`
+- Metrics: `http://localhost:8082/actuator/metrics`
+
+## Orden de arranque
+
+MySQL → Eureka → ms-academico → **ms-asistencia** → BFF → api-gateway → frontend
 ## Base de datos MySQL
 
 - Base de este servicio: `libroclases_asistencia`
